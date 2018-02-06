@@ -41,7 +41,7 @@ def make_wheelfile_inner(base_name, base_dir='.'):
         date_time = time.gmtime(int(timestamp))[0:6]
 
     # XXX support bz2, xz when available
-    zip = zipfile.ZipFile(zip_filename, "w", compression=zipfile.ZIP_DEFLATED)
+    zip = zipfile.ZipFile(zip_filename, "w", compression=zipfile.ZIP_STORED)
 
     score = {'WHEEL': 1, 'METADATA': 2, 'RECORD': 3}
     deferred = []
@@ -53,7 +53,7 @@ def make_wheelfile_inner(base_name, base_dir='.'):
             date_time = mtime[0:6]
         zinfo = zipfile.ZipInfo(path, date_time)
         zinfo.external_attr = st.st_mode << 16
-        zinfo.compress_type = zipfile.ZIP_DEFLATED
+        zinfo.compress_type = zipfile.ZIP_STORED
         with open(path, 'rb') as fp:
             zip.writestr(zinfo, fp.read())
         log.info("adding '%s'" % path)
